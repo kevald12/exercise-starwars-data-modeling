@@ -8,23 +8,44 @@ from eralchemy import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
-    # Here we define columns for the table person
-    # Notice that each column is also a normal Python instance attribute.
+class Users(Base):
+    __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    password = Column(String(250), nullable=False)
+    email = Column (String(250), nullable= False)
 
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
+class FavoriteCharacters (Base):
+    __tablename__ = 'favoritecharacters'
+    id = Column (Integer,primary_key=True)
+    user_id = Column (Integer, ForeignKey('users.id'))
+    character_id = Column(Integer, ForeignKey('characters.id'))
+
+class FavoritePlanets (Base):
+    __tablename__ = 'favoriteplanets'
+    id = Column (Integer,primary_key=True)
+    user_id = Column (Integer, ForeignKey('users.id'))
+    planet_id = Column(Integer, ForeignKey('planets.id'))
+
+class planets(Base):
+    __tablename__ = 'planets'
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+    planet_name = Column(String(250), nullable=False)
+    planet_diameter = Column(String(250), nullable=False)
+    planet_rotation_period = Column(String(250), nullable=False)
+    planet_population = Column(Integer, nullable=False)
+    planet_climate = Column(String(250), nullable=False)
+    planet_terrain = Column(String(250), nullable=False)
+
+class Characters (Base):
+    __tablename__ = 'characters'
+    id = Column(Integer, primary_key = True)
+    character_name = Column(String(250),nullable=False)
+    character_gender = Column(String(250),nullable=False)
+    character_skin_color = Column(String(250),nullable=False)
+    character_birthdate = Column(String(250),nullable=False)
+    character_eye_color = Column(String(250),nullable=False)
+
 
     def to_dict(self):
         return {}
